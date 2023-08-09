@@ -3,6 +3,7 @@ package ar.com.facundobazan.models;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "pedidos")
@@ -16,6 +17,9 @@ public class Pedido {
 
     @ManyToOne
     private Cliente cliente;
+    @ManyToMany
+    @JoinTable()
+    List<Producto> productos;
 
     public Pedido() {
 
