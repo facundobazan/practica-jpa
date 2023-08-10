@@ -17,9 +17,8 @@ public class Pedido {
 
     @ManyToOne
     private Cliente cliente;
-    @ManyToMany
-    @JoinTable()
-    List<Producto> productos;
+    @OneToMany
+    List<ItemsPedido> items;
 
     public Pedido() {
 
