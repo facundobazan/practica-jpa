@@ -3,6 +3,7 @@ package ar.com.facundobazan.models;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,8 +18,8 @@ public class Pedido {
 
     @ManyToOne
     private Cliente cliente;
-    @OneToMany
-    List<ItemsPedido> items;
+    @OneToMany(mappedBy = "pedido")
+    List<ItemsPedido> items = new ArrayList<>();
 
     public Pedido() {
 
@@ -61,5 +62,11 @@ public class Pedido {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public void agregarItems(ItemsPedido item){
+
+        item.setPedido(this);
+        this.items.add(item);
     }
 }

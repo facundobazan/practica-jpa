@@ -27,6 +27,7 @@ public class ItemsPedido {
         this.cantidad = cantidad;
         this.producto = producto;
         this.pedido = pedido;
+        this.precioUnitario = producto.getPrecio();
     }
 
     public Long getId() {
@@ -47,5 +48,21 @@ public class ItemsPedido {
 
     public void setPrecioUnitario(BigDecimal precioUnitario) {
         this.precioUnitario = precioUnitario;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
     }
 }
