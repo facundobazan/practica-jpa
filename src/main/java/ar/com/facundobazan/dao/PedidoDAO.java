@@ -49,4 +49,17 @@ public class PedidoDAO {
                 "SELECT SUM(P.valorTotal) FROM Pedidos AS P;",
                 BigDecimal.class).getSingleResult();
     }
+
+    public List<Object[]> informeDeVentas(){
+
+        String spql = "SELECT producto.nombre, " +
+                "SUM(item.cantidad), " +
+                "MAX(P.fecha) " +
+                "FROM Pedido AS P " +
+                "JOIN P.items AS item " +
+                "JOIN item.producto AS producto " +
+                "GROUP BY producto.nombre " +
+                "ORDER BY item.cantidad DESC;";
+        return this.entityManager.createQuery(spql, Object[].class).getResultList();
+    }
 }

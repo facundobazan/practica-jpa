@@ -6,6 +6,7 @@ import ar.com.facundobazan.utils.JPAUtil;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class RegistroDePedido {
 
@@ -19,6 +20,13 @@ public class RegistroDePedido {
 
         BigDecimal valorTotal = new PedidoDAO(em).valorTotalVendido();
         System.out.println("Total vendido: " + valorTotal);
+
+        List<Object[]> informe = new PedidoDAO(em).informeDeVentas();
+        for(Object[] obj: informe){
+
+            System.out.println(String.format("%s - %d - %t", obj[0], obj[1], obj[2]));
+        }
+
         em.close();
     }
 
