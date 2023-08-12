@@ -1,6 +1,7 @@
 package ar.com.facundobazan.dao;
 
 import ar.com.facundobazan.models.Pedido;
+import ar.com.facundobazan.vo.InformeDeVenta;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -61,5 +62,18 @@ public class PedidoDAO {
                 "GROUP BY producto.nombre " +
                 "ORDER BY item.cantidad DESC;";
         return this.entityManager.createQuery(spql, Object[].class).getResultList();
+    }
+
+    public List<InformeDeVenta> informeDeVentasVO(){
+
+        String spql = "SELECT new ar.com.facundobazan.vo.InformeDeVenta(producto.nombre, " +
+                "SUM(item.cantidad), " +
+                "MAX(P.fecha)) " +
+                "FROM Pedido AS P " +
+                "JOIN P.items AS item " +
+                "JOIN item.producto AS producto " +
+                "GROUP BY producto.nombre " +
+                "ORDER BY item.cantidad DESC;";
+        return this.entityManager.createQuery(spql, InformeDeVenta.class).getResultList();
     }
 }

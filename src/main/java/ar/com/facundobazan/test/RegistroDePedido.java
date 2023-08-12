@@ -3,6 +3,7 @@ package ar.com.facundobazan.test;
 import ar.com.facundobazan.dao.*;
 import ar.com.facundobazan.models.*;
 import ar.com.facundobazan.utils.JPAUtil;
+import ar.com.facundobazan.vo.InformeDeVenta;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -21,11 +22,13 @@ public class RegistroDePedido {
         BigDecimal valorTotal = new PedidoDAO(em).valorTotalVendido();
         System.out.println("Total vendido: " + valorTotal);
 
-        List<Object[]> informe = new PedidoDAO(em).informeDeVentas();
+        /*List<Object[]> informe = new PedidoDAO(em).informeDeVentas();
         for(Object[] obj: informe){
 
             System.out.println(String.format("%s - %d - %t", obj[0], obj[1], obj[2]));
-        }
+        }*/
+        List<InformeDeVenta> informe = new PedidoDAO(em).informeDeVentasVO();
+        for(InformeDeVenta venta: informe) System.out.println(venta);
 
         em.close();
     }
