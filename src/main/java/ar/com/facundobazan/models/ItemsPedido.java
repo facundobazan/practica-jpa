@@ -2,6 +2,7 @@ package ar.com.facundobazan.models;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 @Entity
 @Table(name = "items_pedido")
@@ -64,5 +65,10 @@ public class ItemsPedido {
 
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
+    }
+
+    public BigDecimal getValor() {
+
+        return this.precioUnitario.multiply(new BigDecimal(this.cantidad));
     }
 }

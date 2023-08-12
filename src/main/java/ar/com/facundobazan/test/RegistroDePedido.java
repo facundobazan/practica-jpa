@@ -1,8 +1,6 @@
 package ar.com.facundobazan.test;
 
-import ar.com.facundobazan.dao.CategoriaDAO;
-import ar.com.facundobazan.dao.PedidoDAO;
-import ar.com.facundobazan.dao.ProductoDAO;
+import ar.com.facundobazan.dao.*;
 import ar.com.facundobazan.models.*;
 import ar.com.facundobazan.utils.JPAUtil;
 
@@ -13,34 +11,58 @@ public class RegistroDePedido {
 
     public static void main(String[] args) {
 
-        registrarProducto();
         EntityManager em = JPAUtil.getEntityManager();
-        Producto producto = new ProductoDAO(em).findById(1);
+        registrarCategoria(em);
+        registrarProducto(em);
+        registrarCliente(em);
+        registrarPedido(em);
+        em.close();
+    }
 
-        PedidoDAO pedidoDao = new PedidoDAO(em);
+    private static void registrarPedido(EntityManager em) {
+
         em.getTransaction().begin();
-        Cliente cliente = new Cliente("Facundo", "33430025");
-        Pedido pedido = new Pedido(cliente);
-        pedido.agregarItems(new ItemsPedido(5, producto, pedido));
 
-        pedidoDao.insert(pedido);
+        Pedido pedido = new Pedido(new ClienteDAO(em).findById(1L));
+        pedido.agregarItems(new ItemsPedido(
+                5,
+                new ProductoDAO(em).findById(1L),
+                pedido));
+
+
+        new PedidoDAO(em).insert(pedido);
+
         em.getTransaction().commit();
     }
 
-    private static void registrarProducto() {
-        Categoria celulares = new Categoria("Celulares");
-        Producto celular = new Producto("Samsung", "Telefono usado", new BigDecimal(1000), celulares);
+    private static void registrarCliente(EntityManager em) {
 
-        EntityManager manager = JPAUtil.getEntityManager();
-        ProductoDAO productoDAO = new ProductoDAO(manager);
-        CategoriaDAO categoriaDAO = new CategoriaDAO(manager);
+        em.getTransaction().begin();
 
-        manager.getTransaction().begin();
+        new ClienteDAO(em).insert(new Cliente("Facundo", "33430025"));
 
-        categoriaDAO.insert(celulares);
-        productoDAO.insert(celular);
+        em.getTransaction().commit();
+    }
 
-        manager.getTransaction().commit();
-        manager.close();
+    private static void registrarCategoria(EntityManager em) {
+
+        em.getTransaction().begin();
+
+        new CategoriaDAO(em).insert(new Categoria("Celulares"));
+
+        em.getTransaction().commit();
+    }
+
+    private static void registrarProducto(EntityManager em) {
+
+        em.getTransaction().begin();
+
+        new ProductoDAO(em).insert(new Producto(
+                "Samsung",
+                "Telefono usado",
+                new BigDecimal(1000),
+                new CategoriaDAO(em).findById(1L)));
+
+        em.getTransaction().commit();
     }
 }
