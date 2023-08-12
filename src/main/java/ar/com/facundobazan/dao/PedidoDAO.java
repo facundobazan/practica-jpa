@@ -3,6 +3,7 @@ package ar.com.facundobazan.dao;
 import ar.com.facundobazan.models.Pedido;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class PedidoDAO {
@@ -40,5 +41,12 @@ public class PedidoDAO {
         // jpql -> java persistence query language
         String jqpl = "SELECT P Pedido AS P"; // No se utiliza el '*', se usa un token
         return this.entityManager.createQuery(jqpl, Pedido.class).getResultList();
+    }
+
+    public BigDecimal valorTotalVendido(){
+
+        return this.entityManager.createQuery(
+                "SELECT SUM(P.valorTotal) FROM Pedidos AS P;",
+                BigDecimal.class).getSingleResult();
     }
 }

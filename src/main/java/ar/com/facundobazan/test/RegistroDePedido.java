@@ -16,6 +16,9 @@ public class RegistroDePedido {
         registrarProducto(em);
         registrarCliente(em);
         registrarPedido(em);
+
+        BigDecimal valorTotal = new PedidoDAO(em).valorTotalVendido();
+        System.out.println("Total vendido: " + valorTotal);
         em.close();
     }
 
