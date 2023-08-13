@@ -9,8 +9,8 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
-    private String dni;
+    @Embedded
+    private DatosPersonales datosPersonales;
 
     public Cliente() {
 
@@ -18,27 +18,31 @@ public class Cliente {
 
     public Cliente(String nombre, String dni) {
 
-        setNombre(nombre);
-        setDni(dni);
+        this.datosPersonales = new DatosPersonales(nombre, dni);
     }
 
     public Long getId() {
+
         return id;
     }
 
     public String getNombre() {
-        return nombre;
+
+        return this.datosPersonales.getNombre();
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+
+        this.datosPersonales.setNombre(nombre);
     }
 
     public String getDni() {
-        return dni;
+
+        return this.datosPersonales.getDni();
     }
 
     public void setDni(String dni) {
-        this.dni = dni;
+
+        this.datosPersonales.setDni(dni);
     }
 }
