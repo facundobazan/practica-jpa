@@ -3,6 +3,10 @@ package ar.com.facundobazan.dao;
 import ar.com.facundobazan.models.Producto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -84,5 +88,23 @@ public class ProductoDAO {
         }
 
         return query.getResultList();
+    }
+
+    public List<Producto> consultarPorParametrosConAPICriteria(String nombre, String descripcion, BigDecimal precio, LocalDate fechaDeRegistro) {
+
+        CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        CriteriaQuery<Producto> query = builder.createQuery(Producto.class);
+        Root<Producto> from = query.from(Producto.class);
+
+        Predicate filtro = builder.and();
+        if (!nombre.isBlank()) filtro = builder.and(filtro, builder.equal(from.get("nombre"), nombre));
+        if (!descripcion.isBlank()) filtro = builder.and(filtro, builder.equal(from.get("descripcion"), descripcion));
+        if (precio != null && !precio.equals(new BigDecimal(0)))
+            filtro = builder.and(filtro, builder.equal(from.get("precio"), precio));
+        if (fechaDeRegistro != null)
+            filtro = builder.and(filtro, builder.equal(from.get("fechaDeRegistro"), fechaDeRegistro));
+
+        query = query.where(filtro);
+        return this.entityManager.createQuery(query).getResultList();
     }
 }
