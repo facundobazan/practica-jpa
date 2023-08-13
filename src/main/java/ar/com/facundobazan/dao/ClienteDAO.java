@@ -44,7 +44,7 @@ public class ClienteDAO {
 
     public List<Cliente> findByName(String string) {
 
-        String jpql = "SELECT C FROM Cliente AS C WHERE C.nombre = :string;";
+        String jpql = "SELECT C FROM Cliente AS C WHERE C.nombre = :string";
         return this.entityManager.createQuery(jpql, Cliente.class).setParameter("nombre", string).getResultList();
     }
 }

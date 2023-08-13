@@ -45,13 +45,12 @@ public class ProductoDAO {
 
     public List<Producto> findByName(String string) {
 
-        String jpql = "SELECT P FROM Producto AS P WHERE P.nombre = :string;";
+        String jpql = "SELECT P FROM Producto AS P WHERE P.nombre = :string";
         return this.entityManager.createQuery(jpql, Producto.class).setParameter("nombre", string).getResultList();
     }
 
     public BigDecimal getPriceByProductName(String string) {
 
-        String jpql = "SELECT P.precio FROM Producto AS P WHERE P.nombre = :string;";
-        return this.entityManager.createQuery(jpql, BigDecimal.class).setParameter("nombre", string).getSingleResult();
+        return this.entityManager.createNamedQuery("Producto.consultaDePrecio", BigDecimal.class).setParameter("nombre", string).getSingleResult();
     }
 }

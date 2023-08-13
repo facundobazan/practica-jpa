@@ -47,7 +47,7 @@ public class PedidoDAO {
     public BigDecimal valorTotalVendido(){
 
         return this.entityManager.createQuery(
-                "SELECT SUM(P.valorTotal) FROM Pedidos AS P;",
+                "SELECT SUM(P.valorTotal) FROM Pedido AS P",
                 BigDecimal.class).getSingleResult();
     }
 
@@ -60,7 +60,7 @@ public class PedidoDAO {
                 "JOIN P.items AS item " +
                 "JOIN item.producto AS producto " +
                 "GROUP BY producto.nombre " +
-                "ORDER BY item.cantidad DESC;";
+                "ORDER BY item.cantidad DESC";
         return this.entityManager.createQuery(spql, Object[].class).getResultList();
     }
 
@@ -73,7 +73,7 @@ public class PedidoDAO {
                 "JOIN P.items AS item " +
                 "JOIN item.producto AS producto " +
                 "GROUP BY producto.nombre " +
-                "ORDER BY item.cantidad DESC;";
+                "ORDER BY item.cantidad DESC";
         return this.entityManager.createQuery(spql, InformeDeVenta.class).getResultList();
     }
 }
