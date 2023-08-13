@@ -44,14 +44,14 @@ public class PedidoDAO {
         return this.entityManager.createQuery(jqpl, Pedido.class).getResultList();
     }
 
-    public BigDecimal valorTotalVendido(){
+    public BigDecimal valorTotalVendido() {
 
         return this.entityManager.createQuery(
                 "SELECT SUM(P.valorTotal) FROM Pedido AS P",
                 BigDecimal.class).getSingleResult();
     }
 
-    public List<Object[]> informeDeVentas(){
+    public List<Object[]> informeDeVentas() {
 
         String spql = "SELECT producto.nombre, " +
                 "SUM(item.cantidad), " +
@@ -64,7 +64,7 @@ public class PedidoDAO {
         return this.entityManager.createQuery(spql, Object[].class).getResultList();
     }
 
-    public List<InformeDeVenta> informeDeVentasVO(){
+    public List<InformeDeVenta> informeDeVentasVO() {
 
         String spql = "SELECT new ar.com.facundobazan.vo.InformeDeVenta(producto.nombre, " +
                 "SUM(item.cantidad), " +
@@ -75,5 +75,11 @@ public class PedidoDAO {
                 "GROUP BY producto.nombre " +
                 "ORDER BY item.cantidad DESC";
         return this.entityManager.createQuery(spql, InformeDeVenta.class).getResultList();
+    }
+
+    public Pedido consultarPedidoConCliente(Long id) {
+
+        String jpwl = "SELECT P FROM Pedido AS P JOIN FETCH P.cliente WHERE P.id = :id";    //  Realiza una consulta precargada, no importa si la consulta esta cerrada.
+        return this.entityManager.createQuery(jpwl, Pedido.class).setParameter("id", id).getSingleResult();
     }
 }
