@@ -2,8 +2,10 @@ package ar.com.facundobazan.models;
 
 import jakarta.persistence.Embeddable;
 
+import java.io.Serializable;
+
 @Embeddable
-public class DatosPersonales {
+public class DatosPersonales implements Serializable {
 
     private String nombre;
     private String dni;
