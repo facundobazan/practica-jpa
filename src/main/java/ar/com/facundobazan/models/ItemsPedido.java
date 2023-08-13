@@ -15,9 +15,9 @@ public class ItemsPedido {
     private BigDecimal precioUnitario;
 
     //  Navegabilidad
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Producto producto;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pedido pedido;
 
     public ItemsPedido() {

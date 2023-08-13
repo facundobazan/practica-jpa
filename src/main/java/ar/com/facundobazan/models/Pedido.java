@@ -16,7 +16,7 @@ public class Pedido {
     private LocalDate fecha = LocalDate.now();
     private BigDecimal valorTotal = new BigDecimal(0);
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) //   Carga perezosa.
     private Cliente cliente;
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     List<ItemsPedido> items = new ArrayList<>();
@@ -64,7 +64,7 @@ public class Pedido {
         this.cliente = cliente;
     }
 
-    public void agregarItems(ItemsPedido item){
+    public void agregarItems(ItemsPedido item) {
 
         item.setPedido(this);
         this.items.add(item);
