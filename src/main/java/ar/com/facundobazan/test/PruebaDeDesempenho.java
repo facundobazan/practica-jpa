@@ -5,12 +5,13 @@ import ar.com.facundobazan.models.Pedido;
 import ar.com.facundobazan.utils.JPAUtil;
 
 import javax.persistence.EntityManager;
+import java.io.FileNotFoundException;
 
 public class PruebaDeDesempenho {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
 
-        //  LoadRecords.cargarRegistros();
+        LoadRecords.cargarRegistros();
         EntityManager entityManager = JPAUtil.getEntityManager();
 
         PedidoDAO pedidoDAO = new PedidoDAO(entityManager);
