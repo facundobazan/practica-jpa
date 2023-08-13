@@ -6,8 +6,8 @@ import ar.com.facundobazan.dao.PedidoDAO;
 import ar.com.facundobazan.dao.ProductoDAO;
 import ar.com.facundobazan.models.*;
 import ar.com.facundobazan.utils.JPAUtil;
+import jakarta.persistence.EntityManager;
 
-import javax.persistence.EntityManager;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
@@ -25,21 +25,21 @@ public class LoadRecords {
         PedidoDAO pedidoDao = new PedidoDAO(em);
         em.getTransaction().begin();
 
-        loadCategoria("categoria",categoriaDao,em);
+        loadCategoria("categoria", categoriaDao, em);
 
-        loadProducto("producto",productoDao,categoriaDao,em);
+        loadProducto("producto", productoDao, categoriaDao, em);
 
-        loadCliente("cliente",clienteDao,em);
+        loadCliente("cliente", clienteDao, em);
 
         List<Cliente> clientesList = clienteDao.getAll();
-        List<Pedido> pedidoList= new ArrayList<>();
+        List<Pedido> pedidoList = new ArrayList<Pedido>();
 
-        for(Cliente cl:clientesList) {
+        for (Cliente cl : clientesList) {
             pedidoList.add(new Pedido(cl));
         }
 
-        for(int i=0;i<pedidoList.size();i++) {
-            pedidoList.get(i).agregarItems(new ItemsPedido(i+1,productoDao.findById((long) (i+1)),pedidoList.get(i)));
+        for (int i = 0; i < pedidoList.size(); i++) {
+            pedidoList.get(i).agregarItems(new ItemsPedido(i + 1, productoDao.findById(i + 1), pedidoList.get(i)));
             pedidoDao.insert(pedidoList.get(i));
         }
 
@@ -48,24 +48,24 @@ public class LoadRecords {
 
     }
 
-    private static void loadProducto(String type, ProductoDAO productoDao,CategoriaDAO categoriaDao, EntityManager em) throws FileNotFoundException {
-        List<String> productosTxt =readFile(type);
-        for(int i=0;i<productosTxt.size();i++) {
+    private static void loadProducto(String type, ProductoDAO productoDao, CategoriaDAO categoriaDao, EntityManager em) throws FileNotFoundException {
+        List<String> productosTxt = readFile(type);
+        for (int i = 0; i < productosTxt.size(); i++) {
             String[] line = productosTxt.get(i).split(";");
-            if(line.length>1) {
-                Categoria categoria=categoriaDao.findByName(line[3]);
-                Producto producto = new Producto(line[4],line[0],new BigDecimal(line[1]),categoria);
+            if (line.length > 1) {
+                Categoria categoria = categoriaDao.findByName(line[3]);
+                Producto producto = new Producto(line[4], line[0], new BigDecimal(line[1]), categoria);
                 productoDao.insert(producto);
                 em.flush();
             }
         }
     }
 
-    private static void loadCategoria(String type, CategoriaDAO categoriaDao,EntityManager em) throws FileNotFoundException {
-        List<String> categoriasTxt =readFile(type);
-        for(int i=0;i<categoriasTxt.size();i++) {
+    private static void loadCategoria(String type, CategoriaDAO categoriaDao, EntityManager em) throws FileNotFoundException {
+        List<String> categoriasTxt = readFile(type);
+        for (int i = 0; i < categoriasTxt.size(); i++) {
             String[] line = categoriasTxt.get(i).split(";");
-            if(line.length==1) {
+            if (line.length == 1) {
                 Categoria categoria = new Categoria(categoriasTxt.get(i));
                 categoriaDao.insert(categoria);
                 em.flush();
@@ -73,13 +73,13 @@ public class LoadRecords {
         }
     }
 
-    private static void loadCliente(String type, ClienteDAO clienteDao,EntityManager em) throws FileNotFoundException {
-        List<String> clientesTxt =readFile(type);
-        for(int i=0;i<clientesTxt.size();i++) {
+    private static void loadCliente(String type, ClienteDAO clienteDao, EntityManager em) throws FileNotFoundException {
+        List<String> clientesTxt = readFile(type);
+        for (int i = 0; i < clientesTxt.size(); i++) {
             String[] line = clientesTxt.get(i).split("~");
-            System.out.println(line[0]+line[1]);
-            if(line.length>1) {
-                Cliente cliente= new Cliente(line[0],line[1]);
+            System.out.println(line[0] + line[1]);
+            if (line.length > 1) {
+                Cliente cliente = new Cliente(line[0], line[1]);
                 clienteDao.insert(cliente);
                 em.flush();
             }
@@ -87,10 +87,10 @@ public class LoadRecords {
     }
 
     private static List<String> readFile(String type) throws FileNotFoundException {
-        File file = new File("C:\\Users\\Public\\Alura\\jpa\\"+type+".txt");
+        File file = new File("C:\\Users\\Public\\Alura\\jpa\\" + type + ".txt");
         Scanner scan = new Scanner(file);
-        List<String> pedido= new ArrayList<>();
-        while(scan.hasNextLine()){
+        List<String> pedido = new ArrayList<String>();
+        while (scan.hasNextLine()) {
             pedido.add(scan.nextLine());
         }
         scan.close();

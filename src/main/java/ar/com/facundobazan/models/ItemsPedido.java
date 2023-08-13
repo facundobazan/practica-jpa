@@ -1,8 +1,8 @@
 package ar.com.facundobazan.models;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
-import java.math.MathContext;
 
 @Entity
 @Table(name = "items_pedido")

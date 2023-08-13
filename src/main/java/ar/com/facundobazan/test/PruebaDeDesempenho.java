@@ -3,8 +3,8 @@ package ar.com.facundobazan.test;
 import ar.com.facundobazan.dao.PedidoDAO;
 import ar.com.facundobazan.models.Pedido;
 import ar.com.facundobazan.utils.JPAUtil;
+import jakarta.persistence.EntityManager;
 
-import javax.persistence.EntityManager;
 import java.io.FileNotFoundException;
 
 public class PruebaDeDesempenho {

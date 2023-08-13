@@ -1,14 +1,16 @@
 package ar.com.facundobazan.dao;
 
 import ar.com.facundobazan.models.Producto;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
-import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 public class ProductoDAO {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public ProductoDAO(EntityManager entityManager) {
 
@@ -52,5 +54,35 @@ public class ProductoDAO {
     public BigDecimal getPriceByProductName(String string) {
 
         return this.entityManager.createNamedQuery("Producto.consultaDePrecio", BigDecimal.class).setParameter("nombre", string).getSingleResult();
+    }
+
+    public List<Producto> consultarPorParametros(String nombre, String descripcion, BigDecimal precio, LocalDate fechaDeRegistro) {
+
+        StringBuilder jpql = new StringBuilder("SELECT P FROM Producto P WHERE 1 = 1");
+        TypedQuery<Producto> query = this.entityManager.createQuery(jpql.toString(), Producto.class);
+
+        if (!nombre.isBlank()) {
+
+            jpql.append(" AND p.nombre = :nombre");
+            query.setParameter("nombre", nombre);
+        }
+
+        if (!descripcion.isBlank()) {
+
+            jpql.append(" AND p.descripcion = :descripcion");
+            query.setParameter("descripcion", descripcion);
+        }
+        if (precio != null && !precio.equals(new BigDecimal(0))) {
+
+            jpql.append(" AND p.precio = :precio");
+            query.setParameter("precio", precio);
+        }
+        if (fechaDeRegistro != null) {
+
+            jpql.append(" AND p.fechaDeRegistro = :fechaDeRegistro");
+            jpql.append(" AND p.fechaDeRegistro = :fechaDeRegistro");
+        }
+
+        return query.getResultList();
     }
 }

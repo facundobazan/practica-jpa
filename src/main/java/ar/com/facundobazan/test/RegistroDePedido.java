@@ -1,11 +1,14 @@
 package ar.com.facundobazan.test;
 
-import ar.com.facundobazan.dao.*;
+import ar.com.facundobazan.dao.CategoriaDAO;
+import ar.com.facundobazan.dao.ClienteDAO;
+import ar.com.facundobazan.dao.PedidoDAO;
+import ar.com.facundobazan.dao.ProductoDAO;
 import ar.com.facundobazan.models.*;
 import ar.com.facundobazan.utils.JPAUtil;
 import ar.com.facundobazan.vo.InformeDeVenta;
+import jakarta.persistence.EntityManager;
 
-import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -28,7 +31,7 @@ public class RegistroDePedido {
             System.out.println(String.format("%s - %d - %t", obj[0], obj[1], obj[2]));
         }*/
         List<InformeDeVenta> informe = new PedidoDAO(em).informeDeVentasVO();
-        for(InformeDeVenta venta: informe) System.out.println(venta);
+        for (InformeDeVenta venta : informe) System.out.println(venta);
 
         em.close();
     }

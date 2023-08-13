@@ -1,13 +1,13 @@
 package ar.com.facundobazan.dao;
 
 import ar.com.facundobazan.models.Categoria;
+import jakarta.persistence.EntityManager;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 public class CategoriaDAO {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public CategoriaDAO(EntityManager entityManager) {
 

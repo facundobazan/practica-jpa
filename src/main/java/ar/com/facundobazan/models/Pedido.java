@@ -1,6 +1,7 @@
 package ar.com.facundobazan.models;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class Pedido {
     @ManyToOne(fetch = FetchType.LAZY) //   Carga perezosa.
     private Cliente cliente;
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-    List<ItemsPedido> items = new ArrayList<>();
+    List<ItemsPedido> items = new ArrayList<ItemsPedido>();
 
     public Pedido() {
 

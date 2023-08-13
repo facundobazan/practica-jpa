@@ -2,14 +2,14 @@ package ar.com.facundobazan.dao;
 
 import ar.com.facundobazan.models.Pedido;
 import ar.com.facundobazan.vo.InformeDeVenta;
+import jakarta.persistence.EntityManager;
 
-import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
 
 public class PedidoDAO {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public PedidoDAO(EntityManager entityManager) {
 

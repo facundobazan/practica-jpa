@@ -5,8 +5,8 @@ import ar.com.facundobazan.dao.ProductoDAO;
 import ar.com.facundobazan.models.Categoria;
 import ar.com.facundobazan.models.Producto;
 import ar.com.facundobazan.utils.JPAUtil;
+import jakarta.persistence.EntityManager;
 
-import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 
 public class RegistroDeProducto {
