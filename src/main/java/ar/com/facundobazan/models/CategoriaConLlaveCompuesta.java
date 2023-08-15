@@ -6,10 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "categorias")
 public class CategoriaConLlaveCompuesta {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String nombre;
+    @EmbeddedId
+    private CategoriaId categoriaId;
 
     public CategoriaConLlaveCompuesta() {
 
@@ -17,18 +15,16 @@ public class CategoriaConLlaveCompuesta {
 
     public CategoriaConLlaveCompuesta(String nombre) {
 
-        setNombre(nombre);
-    }
-
-    public long getId() {
-        return id;
+        this.categoriaId = new CategoriaId(nombre, "12345");
     }
 
     public String getNombre() {
-        return nombre;
+
+        return this.categoriaId.getNombre();
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+
+        this.categoriaId.setNombre(nombre);
     }
 }
